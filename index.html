@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>R1免APP配网</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CrazyBoyM/R1ConfigWifi/css/main.css">
+<!--   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CrazyBoyM/R1ConfigWifi/css/main.css"> -->
 </head>
 
 <body>
@@ -44,33 +44,26 @@
     }
   
     function json2str(){
-      let ssid = $("#ssid").val();
-      let passwd = $("#passwd").val();
-      let secure = $("#secure").val();
       let info = {
-        "ssid": ssid,
+        "ssid": $("#ssid").val(),
         "mac":"",
         "level":"",
-        "secure": secure,
-        "password": passwd
-      };
-      let getinfo={
-        "page_size":30,
-        "page_number":1
-      };
+        "secure": $("#secure").val() || 'WPA',
+        "password": $("#passwd").val()
+      }
       return JSON.stringify(info);
   }
   
   function loopx(){
-    str=json2str();
+    str = json2str();
     setWifi();
     $("#wifilist").val(str+"\n正在配网请等待7秒...");
     console.log("try post to http://192.168.48.1:8989/api/configwifi");
     //若7s后仍未成功配网，则多次触发post请求配网
     setTimeout(function(){
-      var i=1;
+      var i = 1;
       console.log("#############");
-      while(i<=6){
+      while(i <= 6){
         setWifi();
         console.log("###"+i+"###");
         i++;
@@ -80,5 +73,87 @@
   }
 </script>
 </footer>
+  <style>
+  body{
+    text-align: center;
+    background-color: #282c34;
+}
+.container{
+    width: 60%;
+    margin: 10% auto 0;
+    padding: 2% 5%;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.set-wifi{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+.set-wifi .row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    padding: 10px;
+    font-weight: bold;
+}
+.set-wifi .row input{
+    margin-left: 10px;
+    padding: 6px 10px;
+    color: #000;
+    font-weight: bold;
+    border-color: #000;
+    border-radius: 10px;
+    outline: none;
+}
+.set-wifi button{
+    margin: 10px;
+    padding: 5px 50px;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: transparent;
+    border-color: #000;
+    border-radius: 5px;
+    outline: none;
+}
+.set-wifi button:hover,.set-wifi .row input:focus{
+    color: blue;
+    border-color: blue;
+}
+.res-info{
+    height:100px;
+    width: 233px;
+    margin: 18px 0 10px 0;
+    padding: 6px 10px;
+    color: #000;
+    font-weight: bold;
+    border-color: #000;
+    border-radius: 10px;
+    outline: none;
+}
+
+@media screen and (max-width: 40em){
+    .container{
+        width: 90%;
+    }
+    .set-wifi button{
+        margin: 10px 0 0 0;
+    }
+    .set-wifi .row span{
+    padding: 3px 0;
+    }
+    .set-wifi .row input{
+        margin-left: 0;
+    }
+}
+  </style>
 </body>
 </html>
